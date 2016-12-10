@@ -31,6 +31,9 @@ public class Main {
     public Logger logger;
 
     @Inject
+    private Metrics metrics;
+
+    @Inject
     @DefaultConfig(sharedRoot = false)
     public Path defaultConf;
 
