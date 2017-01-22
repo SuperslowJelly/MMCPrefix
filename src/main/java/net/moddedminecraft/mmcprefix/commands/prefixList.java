@@ -16,6 +16,7 @@ import org.spongepowered.api.text.action.TextActions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class prefixList implements CommandExecutor {
 
@@ -38,11 +39,11 @@ public class prefixList implements CommandExecutor {
                 String indstr = String.valueOf(index);
                 Builder send = Text.builder();
                 String prefix = Config.getConfig().getNode("list", indstr, "prefix").getString();
-                if (player.hasPermission("mmcprefix.list." + Config.getConfig().getNode("list", indstr, "permission"))) {
+                if (player.hasPermission("mmcprefix.list." + Config.getConfig().getNode("list", indstr, "permission").getString())) {
                     send.append(plugin.fromLegacy("&3" + indstr + "&f: " + prefix));
                     send.onHover(TextActions.showText(plugin.fromLegacy("Set your current prefix to: " + prefix + player.getName())));
-                    send.onClick(TextActions.runCommand("/setprefix " + prefix + " " + player.getName()));
-
+                    send.onClick(TextActions.executeCallback(processPrefix(prefix , player.getName())));
+                    send.onClick(TextActions.executeCallback(processPrefix(prefix , player.getName())));
                     contents.add(send.build());
                 }
             }
@@ -61,5 +62,11 @@ public class prefixList implements CommandExecutor {
         } else {
             throw new CommandException(plugin.fromLegacy("Only a player is able to get their own prefix's"));
         }
+    }
+
+    private static Consumer<CommandSource> processPrefix(String prefix, String name) {
+        return consumer -> {
+            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix " + prefix + " " + name);
+        };
     }
 }
