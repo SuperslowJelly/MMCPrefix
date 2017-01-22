@@ -43,7 +43,6 @@ public class prefixList implements CommandExecutor {
                     send.append(plugin.fromLegacy("&3" + indstr + "&f: " + prefix));
                     send.onHover(TextActions.showText(plugin.fromLegacy("Set your current prefix to: " + prefix + player.getName())));
                     send.onClick(TextActions.executeCallback(processPrefix(prefix , player.getName())));
-                    send.onClick(TextActions.executeCallback(processPrefix(prefix , player.getName())));
                     contents.add(send.build());
                 }
             }
@@ -64,9 +63,10 @@ public class prefixList implements CommandExecutor {
         }
     }
 
-    private static Consumer<CommandSource> processPrefix(String prefix, String name) {
+    private Consumer<CommandSource> processPrefix(String prefix, String name) {
         return consumer -> {
-            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix " + prefix + " " + name);
+            Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix " + prefix + " " + name + " custom");
+            plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &3Prefix Set to: &f" + prefix);
         };
     }
 }
