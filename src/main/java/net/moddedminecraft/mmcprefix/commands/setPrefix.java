@@ -24,6 +24,7 @@ public class setPrefix implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         Optional<Player> playerOP = args.getOne("player");
         Optional<String> prefixOP = args.<String>getOne("prefix");
+        Optional<String> prefixListOP = args.<String>getOne("custom");
         String prefix;
         int length;
 
@@ -40,11 +41,18 @@ public class setPrefix implements CommandExecutor {
 
         if (playerOP.isPresent()) {
             Player player2 = playerOP.get();
-            if (player2.hasPermission("mmcprefix.prefix.protected")) {
+            if (player2.hasPermission("mmcprefix.prefix.protected") && src instanceof Player) {
                 throw new CommandException(plugin.fromLegacy("&4The prefix of the specified player cannot be changed."));
             } else {
-                player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
+                if (prefixListOP.isPresent()) {
+                    if (prefixListOP.get().equalsIgnoreCase("custom")) {
+                        player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", prefix);
+                        plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
+                    }
+                } else {
+                    player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
+                    plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
+                }
                 return CommandResult.success();
             }
         } else {

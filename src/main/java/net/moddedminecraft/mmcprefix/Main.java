@@ -90,7 +90,8 @@ public class Main {
                 .description(Text.of("Set a prefix for yourself"))
                 .arguments(
                         GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.string(Text.of("prefix")), "mmcprefix.prefix.set.self")),
-                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.player(Text.of("player")), "mmcprefix.prefix.set.other"))
+                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.player(Text.of("player")), "mmcprefix.prefix.set.other")),
+                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.string(Text.of("custom")), "mmcprefix.prefix.set.list"))
                 )
                 .executor(new setPrefix(this))
                 .build();
