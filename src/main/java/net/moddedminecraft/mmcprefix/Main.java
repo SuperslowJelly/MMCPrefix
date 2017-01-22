@@ -2,6 +2,7 @@ package net.moddedminecraft.mmcprefix;
 
 import com.google.inject.Inject;
 import net.moddedminecraft.mmcprefix.commands.delPrefix;
+import net.moddedminecraft.mmcprefix.commands.prefixList;
 import net.moddedminecraft.mmcprefix.commands.setPrefix;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.slf4j.Logger;
@@ -67,6 +68,13 @@ public class Main {
 
     private void loadCommands() {
 
+        // /prefixlist
+        CommandSpec prefixlist = CommandSpec.builder()
+                .description(Text.of("List all avaliable prefixes"))
+                .permission("mmcprefix.prefix.list")
+                .executor(new prefixList(this))
+                .build();
+
         // /delprefix (player)
         CommandSpec delprefix = CommandSpec.builder()
                 .description(Text.of("Delete the custom prefix for yourself"))
@@ -88,6 +96,7 @@ public class Main {
                 .build();
 
 
+        cmdManager.register(this, prefixlist, "prefixlist");
         cmdManager.register(this, delprefix, "delprefix");
         cmdManager.register(this, setprefix, "setprefix");
     }
@@ -99,4 +108,5 @@ public class Main {
     public Text fromLegacy(String legacy) {
         return TextSerializers.FORMATTING_CODE.deserializeUnchecked(legacy);
     }
+
 }
