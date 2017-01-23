@@ -51,11 +51,11 @@ public class Config {
         prefixMaxCharacterLimit = check(config.getNode("prefix", "max-character-limit"), 10, "How many characters are allowed in the prefix").getInt();
         prefixFormat = check(config.getNode("format"), "&f[%prefix%&f]", "Format of the prefix, %prefix% is replaced.").getString();
 
-        prefixListTitle = check(config.getNode("list-title"), "Prefix List", "Title to be shown during /prefixlist").getString();
+        prefixListTitle = check(config.getNode("list", "title"), "Prefix List", "Title to be shown during /prefixlist").getString();
 
         if (!config.getNode("list").hasMapChildren()) {
-            check(config.getNode("list", "1", "prefix"), "[&6Default&f] ", "Prefix to be displayed");
-            check(config.getNode("list", "1", "permission"), "default", "Permission node for use with: mmcprefix.list.####");
+            check(config.getNode("list", "content", "1", "prefix"), "[&6Default&f] ", "Prefix to be displayed (This is formatted differently from the default format node)");
+            check(config.getNode("list", "content", "1", "permission"), "default", "Permission node for use with: mmcprefix.list.####");
         }
 
 

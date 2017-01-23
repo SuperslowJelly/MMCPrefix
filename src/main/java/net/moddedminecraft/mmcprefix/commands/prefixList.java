@@ -30,7 +30,7 @@ public class prefixList implements CommandExecutor {
     public CommandResult execute(CommandSource src, CommandContext args) throws CommandException {
         PaginationService paginationService = Sponge.getServiceManager().provide(PaginationService.class).get();
 
-        int total = Config.getConfig().getNode("list").getChildrenMap().keySet().size();
+        int total = Config.getConfig().getNode("list", "content").getChildrenMap().keySet().size();
         List<Text> contents = new ArrayList<>();
 
         if (src instanceof Player) {
@@ -38,10 +38,13 @@ public class prefixList implements CommandExecutor {
             for (index = 1; index <= total; index++) {
                 String indstr = String.valueOf(index);
                 Builder send = Text.builder();
-                String prefix = Config.getConfig().getNode("list", indstr, "prefix").getString();
-                if (player.hasPermission("mmcprefix.list." + Config.getConfig().getNode("list", indstr, "permission").getString())) {
-                    send.append(plugin.fromLegacy("&3- &f: " + prefix));
-                    send.onHover(TextActions.showText(plugin.fromLegacy("Set your current prefix to: " + prefix + player.getName())));
+                String permission = Config.getConfig().getNode("list", "content", indstr, "permission").getString();
+                String prefix = Config.getConfig().getNode("list", "content", indstr, "prefix").getString();
+                if (player.hasPermission("mmcprefix.list." + permission) || permission.isEmpty()) {
+                    send.append(plugin.fromLegacy("&3- &f" + prefix));
+                    if (!Config.prefixListHover.isEmpty()) {
+                        send.onHover(TextActions.showText(plugin.fromLegacy(Config.prefixListHover.replace("{prefix}", prefix).replace("{playername}", player.getName()))));
+                    }
                     send.onClick(TextActions.executeCallback(processPrefix(prefix , player.getName())));
                     contents.add(send.build());
                 }
