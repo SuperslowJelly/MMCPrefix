@@ -25,7 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.0", description = "A simple and easy to use custom prefix manager")
+@Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.1", description = "A simple and easy to use custom prefix manager")
 public class Main {
 
     @Inject
