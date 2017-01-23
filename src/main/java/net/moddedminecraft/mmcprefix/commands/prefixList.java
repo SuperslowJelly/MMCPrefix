@@ -54,12 +54,21 @@ public class prefixList implements CommandExecutor {
                 index = 1;
             }
 
-            paginationService.builder()
-                    .title(plugin.fromLegacy(Config.prefixListTitle))
-                    .header(plugin.fromLegacy("&3Click on the prefix you would like to use."))
-                    .contents(contents)
-                    .padding(Text.of("="))
-                    .sendTo(player);
+            if (Config.prefixListHeader.isEmpty()) {
+                paginationService.builder()
+                        .title(plugin.fromLegacy(Config.prefixListTitle))
+                        .contents(contents)
+                        .padding(Text.of("="))
+                        .sendTo(player);
+
+            } else {
+                paginationService.builder()
+                        .title(plugin.fromLegacy(Config.prefixListTitle))
+                        .header(plugin.fromLegacy(Config.prefixListHeader))
+                        .contents(contents)
+                        .padding(Text.of("="))
+                        .sendTo(player);
+            }
 
             return CommandResult.success();
         } else {

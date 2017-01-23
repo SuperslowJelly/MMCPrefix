@@ -27,6 +27,8 @@ public class Config {
     public static int prefixMaxCharacterLimit;
     public static String prefixFormat;
     public static String prefixListTitle;
+    public static String prefixListHover;
+    public static String prefixListHeader;
 
     public static List<String> prefixBlacklist;
 
@@ -52,6 +54,10 @@ public class Config {
         prefixFormat = check(config.getNode("format"), "&f[%prefix%&f]", "Format of the prefix, %prefix% is replaced.").getString();
 
         prefixListTitle = check(config.getNode("list", "title"), "Prefix List", "Title to be shown during /prefixlist").getString();
+        prefixListHover = check(config.getNode("list", "hover"), "Set your current prefix to: {prefix}{playername}", "Text to be shown while hovering over each prefix. \n"
+                                                                + "{prefix} - will replace with the prefix defined from the list. /m"
+                                                                + "{playername} - Will replace with the player's name").getString();
+        prefixListHeader = check(config.getNode("list", "header"), "&3Click on the prefix you would like to use.", "Text to be shown at the top of the list").getString();
 
         if (!config.getNode("list").hasMapChildren()) {
             check(config.getNode("list", "content", "1", "prefix"), "[&6Default&f] ", "Prefix to be displayed (This is formatted differently from the default format node)");
