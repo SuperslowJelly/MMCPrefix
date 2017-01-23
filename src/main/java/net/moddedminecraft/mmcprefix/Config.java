@@ -29,6 +29,7 @@ public class Config {
     public static String prefixListTitle;
     public static String prefixListHover;
     public static String prefixListHeader;
+    public static int prefixListCooldown;
 
     public static List<String> prefixBlacklist;
 
@@ -58,6 +59,7 @@ public class Config {
                                                                 + "{prefix} - will replace with the prefix defined from the list. \n"
                                                                 + "{playername} - Will replace with the player's name").getString();
         prefixListHeader = check(config.getNode("list", "header"), "&3Click on the prefix you would like to use.", "Text to be shown at the top of the list").getString();
+        prefixListCooldown = check(config.getNode("list", "cooldown"), 5, "How long should a person have to wait before selecting another prefix? (in minutes) (Set to 0 to disable)").getInt();
 
         if (!config.getNode("list", "content").hasMapChildren()) {
             check(config.getNode("list", "content", "1", "prefix"), "[&6Default&f] ", "Prefix to be displayed (This is formatted differently from the default format node)");
