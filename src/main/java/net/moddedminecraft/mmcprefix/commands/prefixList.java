@@ -40,7 +40,7 @@ public class prefixList implements CommandExecutor {
                 Builder send = Text.builder();
                 String prefix = Config.getConfig().getNode("list", indstr, "prefix").getString();
                 if (player.hasPermission("mmcprefix.list." + Config.getConfig().getNode("list", indstr, "permission").getString())) {
-                    send.append(plugin.fromLegacy("&3" + indstr + "&f: " + prefix));
+                    send.append(plugin.fromLegacy("&3- &f: " + prefix));
                     send.onHover(TextActions.showText(plugin.fromLegacy("Set your current prefix to: " + prefix + player.getName())));
                     send.onClick(TextActions.executeCallback(processPrefix(prefix , player.getName())));
                     contents.add(send.build());
@@ -53,6 +53,7 @@ public class prefixList implements CommandExecutor {
 
             paginationService.builder()
                     .title(plugin.fromLegacy(Config.prefixListTitle))
+                    .header(plugin.fromLegacy("&3Click on the prefix you would like to use."))
                     .contents(contents)
                     .padding(Text.of("="))
                     .sendTo(player);
