@@ -86,7 +86,7 @@ public class prefixList implements CommandExecutor {
 
     private Consumer<CommandSource> processPrefix(String prefix, String name) {
         return consumer -> {
-            if (cooldownPrefixList.containsKey(name) && Config.prefixListCooldown >= 1) {
+            if (cooldownPrefixList.containsKey(name) && Config.prefixListCooldown >= 1 && !consumer.hasPermission("mmcprefix.bypass.cooldown")) {
                 if (Config.prefixListCooldown == 1) {
                     plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &cYou must wait &6" + Config.prefixListCooldown + " minute &cbefore changing your prefix again!");
                 } else {
@@ -94,22 +94,25 @@ public class prefixList implements CommandExecutor {
                 }
             } else {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix " + prefix + " " + name + " custom");
-                cooldownPrefixList.put(name, name);
                 plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &3Prefix Set to: &f" + prefix);
 
-                Timer reducePrefixListTimer = new Timer();
-                reducePrefixListTimer.schedule(new TimerTask() {
-                    public void run() {
-                        cooldownPrefixList.remove(name);
-                    }
-                }, (Config.prefixListCooldown * 60) * 1000);
+                if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {
+                    cooldownPrefixList.put(name, name);
+                    
+                    Timer reducePrefixListTimer = new Timer();
+                    reducePrefixListTimer.schedule(new TimerTask() {
+                        public void run() {
+                            cooldownPrefixList.remove(name);
+                        }
+                    }, (Config.prefixListCooldown * 60) * 1000);
+                }
             }
         };
     }
 
     private Consumer<CommandSource> resetPrefix(String name) {
         return consumer -> {
-            if (cooldownPrefixList.containsKey(name) && Config.prefixListCooldown >= 1) {
+            if (cooldownPrefixList.containsKey(name) && Config.prefixListCooldown >= 1 && !consumer.hasPermission("mmcprefix.bypass.cooldown")) {
                 if (Config.prefixListCooldown == 1) {
                     plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &cYou must wait &6" + Config.prefixListCooldown + " minute &cbefore changing your prefix again!");
                 } else {
@@ -117,15 +120,18 @@ public class prefixList implements CommandExecutor {
                 }
             } else {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "delprefix " + name);
-                cooldownPrefixList.put(name, name);
                 plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &3Prefix has been reset!");
 
-                Timer reducePrefixListTimer = new Timer();
-                reducePrefixListTimer.schedule(new TimerTask() {
-                    public void run() {
-                        cooldownPrefixList.remove(name);
-                    }
-                }, (Config.prefixListCooldown * 60) * 1000);
+                if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {
+                    cooldownPrefixList.put(name, name);
+
+                    Timer reducePrefixListTimer = new Timer();
+                    reducePrefixListTimer.schedule(new TimerTask() {
+                        public void run() {
+                            cooldownPrefixList.remove(name);
+                        }
+                    }, (Config.prefixListCooldown * 60) * 1000);
+                }
             }
         };
     }
