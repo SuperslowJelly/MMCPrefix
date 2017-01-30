@@ -36,6 +36,13 @@ public class prefixList implements CommandExecutor {
 
         if (src instanceof Player) {
             Player player = (Player) src;
+
+            Builder reset = Text.builder();
+            reset.append(plugin.fromLegacy("&6Reset prefix"));
+            reset.onHover(TextActions.showText(plugin.fromLegacy("Click here to reset your prefix")));
+            reset.onClick(TextActions.executeCallback(resetPrefix(player.getName())));
+            contents.add(reset.build());
+
             for (index = 1; index <= total; index++) {
                 String indstr = String.valueOf(index);
                 Builder send = Text.builder();
@@ -89,6 +96,29 @@ public class prefixList implements CommandExecutor {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix " + prefix + " " + name + " custom");
                 cooldownPrefixList.put(name, name);
                 plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &3Prefix Set to: &f" + prefix);
+
+                Timer reducePrefixListTimer = new Timer();
+                reducePrefixListTimer.schedule(new TimerTask() {
+                    public void run() {
+                        cooldownPrefixList.remove(name);
+                    }
+                }, (Config.prefixListCooldown * 60) * 1000);
+            }
+        };
+    }
+
+    private Consumer<CommandSource> resetPrefix(String name) {
+        return consumer -> {
+            if (cooldownPrefixList.containsKey(name) && Config.prefixListCooldown >= 1) {
+                if (Config.prefixListCooldown == 1) {
+                    plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &cYou must wait &6" + Config.prefixListCooldown + " minute &cbefore changing your prefix again!");
+                } else {
+                    plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &cYou must wait &6" + Config.prefixListCooldown + " minutes &cbefore changing your prefix again!");
+                }
+            } else {
+                Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "delprefix " + name);
+                cooldownPrefixList.put(name, name);
+                plugin.sendMessage(consumer, "&f[&6MMCPrefix&f] &3Prefix has been reset!");
 
                 Timer reducePrefixListTimer = new Timer();
                 reducePrefixListTimer.schedule(new TimerTask() {
