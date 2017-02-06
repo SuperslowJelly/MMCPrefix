@@ -1,5 +1,6 @@
 package net.moddedminecraft.mmcprefix.commands;
 
+import net.moddedminecraft.mmcprefix.Config;
 import net.moddedminecraft.mmcprefix.Main;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -26,12 +27,12 @@ public class delPrefix  implements CommandExecutor {
         if (playerOP.isPresent()) {
             Player player2 = playerOP.get();
             player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
-            plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Deleted for &6" + player2.getName() + "&3!");
+            plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted for &6" + player2.getName() + "&3!");
             return CommandResult.success();
         } else {
             if (src instanceof Player) {
                 src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
-                plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Deleted!");
+                plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted!");
                 return CommandResult.success();
             } else {
                 throw new CommandException(plugin.fromLegacy("Only a player is able to delete their own prefix!"));

@@ -16,6 +16,8 @@ public class Config {
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     public static CommentedConfigurationNode config;
 
+    public static String prefix = "&f[&6MMCPrefix&f] ";
+
     private String[] prefixBlacklistList = {
             "owner",
             "admin",

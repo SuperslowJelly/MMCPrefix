@@ -47,11 +47,11 @@ public class setPrefix implements CommandExecutor {
                 if (prefixListOP.isPresent()) {
                     if (prefixListOP.get().equalsIgnoreCase("custom")) {
                         player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", prefix);
-                        plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
+                        plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
                     }
                 } else {
                     player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                    plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
+                    plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
                 }
                 return CommandResult.success();
             }
@@ -62,7 +62,7 @@ public class setPrefix implements CommandExecutor {
                         throw new CommandException(plugin.fromLegacy("&4You cannot have this prefix."));
                     } else {
                         src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                        plugin.sendMessage(src, "&f[&6MMCPrefix&f] &3Prefix Set to: &f" + Config.prefixFormat.replace("%prefix%", prefix));
+                        plugin.sendMessage(src, Config.prefix + "&3Prefix Set to: &f" + Config.prefixFormat.replace("%prefix%", prefix));
                         return CommandResult.success();
                     }
                 } else {
