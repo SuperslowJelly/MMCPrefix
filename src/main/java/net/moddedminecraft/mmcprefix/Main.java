@@ -1,6 +1,7 @@
 package net.moddedminecraft.mmcprefix;
 
 import com.google.inject.Inject;
+import net.moddedminecraft.mmcprefix.commands.addPrefix;
 import net.moddedminecraft.mmcprefix.commands.delPrefix;
 import net.moddedminecraft.mmcprefix.commands.prefixList;
 import net.moddedminecraft.mmcprefix.commands.setPrefix;
@@ -96,10 +97,22 @@ public class Main {
                 .executor(new setPrefix(this))
                 .build();
 
+        // /addprefix permission player
+        CommandSpec addprefix = CommandSpec.builder()
+                .description(Text.of("Give a player the permission to use a prefix in /prefixlist"))
+                .permission("mmcprefix.prefix.addprefix")
+                .arguments(
+                        GenericArguments.optional(GenericArguments.string(Text.of("permission"))),
+                        GenericArguments.optional(GenericArguments.player(Text.of("player")))
+                )
+                .executor(new addPrefix(this))
+                .build();
+
 
         cmdManager.register(this, prefixlist, "prefixlist");
         cmdManager.register(this, delprefix, "delprefix");
         cmdManager.register(this, setprefix, "setprefix");
+        cmdManager.register(this, addprefix, "addprefix");
     }
 
     public void sendMessage(CommandSource sender, String message) {
