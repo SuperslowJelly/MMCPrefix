@@ -12,6 +12,7 @@ import org.spongepowered.api.service.permission.SubjectData;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class setPrefix implements CommandExecutor {
 
@@ -27,6 +28,10 @@ public class setPrefix implements CommandExecutor {
         Optional<String> prefixListOP = args.<String>getOne("custom");
         String prefix;
         int length;
+
+        Pattern prefixColorRegex = Pattern.compile("(&([a-f0-9]))", Pattern.CASE_INSENSITIVE);
+        Pattern prefixFormatRegex = Pattern.compile("(&([k-o]))", Pattern.CASE_INSENSITIVE);
+
 
         if (prefixOP.isPresent()) {
             prefix = prefixOP.get();
@@ -61,9 +66,13 @@ public class setPrefix implements CommandExecutor {
                     if (!src.hasPermission("mmcprefix.prefix.staff") && (checkPrefixBlacklist(prefix))) {
                         throw new CommandException(plugin.fromLegacy("&4You cannot have this prefix."));
                     } else {
-                        src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                        plugin.sendMessage(src, Config.prefix + "&3Prefix Set to: &f" + Config.prefixFormat.replace("%prefix%", prefix));
-                        return CommandResult.success();
+                        if (!src.hasPermission("mmcprefix.prefix.color") && prefixColorRegex.matcher(prefix).find() || !src.hasPermission("mmcprefix.prefix.format") && prefixFormatRegex.matcher(prefix).find()) {
+                            throw new CommandException(plugin.fromLegacy(Config.prefix + "&4You do not have the permission to use chat codes in your prefix."));
+                        } else {
+                            src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
+                            plugin.sendMessage(src, Config.prefix + "&3Prefix Set to: &f" + Config.prefixFormat.replace("%prefix%", prefix));
+                            return CommandResult.success();
+                        }
                     }
                 } else {
                     throw new CommandException(plugin.fromLegacy("&4You cannot have a prefix longer than " + Config.prefixMaxCharacterLimit + " characters"));
