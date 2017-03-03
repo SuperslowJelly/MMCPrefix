@@ -93,7 +93,7 @@ public class prefixList implements CommandExecutor {
                     plugin.sendMessage(consumer, Config.prefix + "&cYou must wait &6" + Config.prefixListCooldown + " minutes &cbefore changing your prefix again!");
                 }
             } else {
-                Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix " + prefix + " " + name + " custom");
+                Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix \"" + prefix + "\" " + name + " custom");
                 plugin.sendMessage(consumer, Config.prefix + "&3Prefix Set to: &f" + prefix);
 
                 if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {
