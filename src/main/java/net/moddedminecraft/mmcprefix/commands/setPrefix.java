@@ -53,10 +53,12 @@ public class setPrefix implements CommandExecutor {
                     if (prefixListOP.get().equalsIgnoreCase("custom")) {
                         player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", prefix);
                         plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
+                        plugin.runPrefixChangeCommands();
                     }
                 } else {
                     player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
                     plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
+                    plugin.runPrefixChangeCommands();
                 }
                 return CommandResult.success();
             }
@@ -71,6 +73,7 @@ public class setPrefix implements CommandExecutor {
                         } else {
                             src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
                             plugin.sendMessage(src, Config.prefix + "&3Prefix Set to: &f" + Config.prefixFormat.replace("%prefix%", prefix));
+                            plugin.runPrefixChangeCommands();
                             return CommandResult.success();
                         }
                     }

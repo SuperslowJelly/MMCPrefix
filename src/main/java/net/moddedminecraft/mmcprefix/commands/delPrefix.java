@@ -28,11 +28,13 @@ public class delPrefix  implements CommandExecutor {
             Player player2 = playerOP.get();
             player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
             plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted for &6" + player2.getName() + "&3!");
+            plugin.runPrefixChangeCommands();
             return CommandResult.success();
         } else {
             if (src instanceof Player) {
                 src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
                 plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted!");
+                plugin.runPrefixChangeCommands();
                 return CommandResult.success();
             } else {
                 throw new CommandException(plugin.fromLegacy("Only a player is able to delete their own prefix!"));

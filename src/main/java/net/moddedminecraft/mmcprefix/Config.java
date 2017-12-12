@@ -8,6 +8,7 @@ import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 public class Config {
 
@@ -32,6 +33,8 @@ public class Config {
     public static String prefixListHover;
     public static String prefixListHeader;
     public static int prefixListCooldown;
+
+    public static List<String> consoleCommands;
 
     public static List<String> prefixBlacklist;
 
@@ -67,6 +70,12 @@ public class Config {
             check(config.getNode("list", "content", "1", "prefix"), "[&6Default&f] ", "Prefix to be displayed (This is formatted differently from the default format node)");
             check(config.getNode("list", "content", "1", "permission"), "default", "Permission node for use with: mmcprefix.list.#### \n"
                                                                                 + "This can be replaced with \"\" to allow use without a permission.");
+        }
+
+        if (config.getNode("prefix", "on-change", "console-commands").hasListChildren()) {
+            consoleCommands = check(config.getNode("prefix", "on-change", "console-commands"), Collections.emptyList(), "Commands to be run after the player changes a prefix").getList(TypeToken.of(String.class));
+        } else {
+            consoleCommands = config.getNode("prefix", "on-change", "console-commands").setValue(Collections.emptyList()).setComment("Commands to be run after the player changes a prefix").getList(TypeToken.of(String.class));
         }
 
 

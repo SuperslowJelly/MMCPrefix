@@ -95,6 +95,7 @@ public class prefixList implements CommandExecutor {
             } else {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix \"" + prefix + "\" " + name + " custom");
                 plugin.sendMessage(consumer, Config.prefix + "&3Prefix Set to: &f" + prefix);
+                plugin.runPrefixChangeCommands();
 
                 if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {
                     cooldownPrefixList.put(name, name);
@@ -121,6 +122,7 @@ public class prefixList implements CommandExecutor {
             } else {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "delprefix " + name);
                 plugin.sendMessage(consumer, Config.prefix + "&3Prefix has been reset!");
+                plugin.runPrefixChangeCommands();
 
                 if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {
                     cooldownPrefixList.put(name, name);

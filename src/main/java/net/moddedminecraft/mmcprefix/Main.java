@@ -25,8 +25,9 @@ import org.spongepowered.api.text.serializer.TextSerializers;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
-@Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.1.4", description = "A simple and easy to use custom prefix manager")
+@Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.2.0", description = "A simple and easy to use custom prefix manager")
 public class Main {
 
     @Inject
@@ -113,6 +114,18 @@ public class Main {
         cmdManager.register(this, delprefix, "delprefix");
         cmdManager.register(this, setprefix, "setprefix");
         cmdManager.register(this, addprefix, "addprefix");
+    }
+
+    public void runPrefixChangeCommands() {
+        List<String> cCommands = Config.consoleCommands;
+        if (!cCommands.isEmpty()) {
+            for (String command : cCommands) {
+                if (!command.equalsIgnoreCase("command 1") || !command.equalsIgnoreCase("command 2")) {
+                    String comm = command.replace("/", "");
+                    Sponge.getCommandManager().process(Sponge.getServer().getConsole(), comm);
+                }
+            }
+        }
     }
 
     public void sendMessage(CommandSource sender, String message) {
