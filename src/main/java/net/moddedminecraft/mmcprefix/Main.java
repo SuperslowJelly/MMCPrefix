@@ -82,7 +82,7 @@ public class Main {
                 .description(Text.of("Delete the custom prefix for yourself"))
                 .permission("mmcprefix.prefix.delete.self")
                 .arguments(
-                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.player(Text.of("player")), "mmcprefix.prefix.delete.other"))
+                        GenericArguments.optional(GenericArguments.player(Text.of("player")))
                 )
                 .executor(new delPrefix(this))
                 .build();
@@ -91,9 +91,9 @@ public class Main {
         CommandSpec setprefix = CommandSpec.builder()
                 .description(Text.of("Set a prefix for yourself"))
                 .arguments(
-                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.string(Text.of("prefix")), "mmcprefix.prefix.set.self")),
-                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.player(Text.of("player")), "mmcprefix.prefix.set.other")),
-                        GenericArguments.optional(GenericArguments.requiringPermission(GenericArguments.string(Text.of("custom")), "mmcprefix.prefix.set.list"))
+                        GenericArguments.optional(GenericArguments.string(Text.of("prefix"))),
+                        GenericArguments.optional(GenericArguments.player(Text.of("player"))),
+                        GenericArguments.optional(GenericArguments.string(Text.of("custom")))
                 )
                 .executor(new setPrefix(this))
                 .build();

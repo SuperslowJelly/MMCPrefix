@@ -32,8 +32,7 @@ public class setPrefix implements CommandExecutor {
         Pattern prefixColorRegex = Pattern.compile("(&([a-f0-9]))", Pattern.CASE_INSENSITIVE);
         Pattern prefixFormatRegex = Pattern.compile("(&([k-o]))", Pattern.CASE_INSENSITIVE);
 
-
-        if (prefixOP.isPresent()) {
+        if (prefixOP.isPresent() && (src.hasPermission("mmcprefix.prefix.set.self") || src.hasPermission("mmcprefix.prefix.set.other"))) {
             prefix = prefixOP.get();
             length = prefix.replaceAll("(&([a-f0-9]))", "").length();
         } else {
@@ -45,22 +44,30 @@ public class setPrefix implements CommandExecutor {
         }
 
         if (playerOP.isPresent()) {
-            Player player2 = playerOP.get();
-            if (player2.hasPermission("mmcprefix.prefix.protected") && src instanceof Player) {
-                throw new CommandException(plugin.fromLegacy("&4The prefix of the specified player cannot be changed."));
-            } else {
-                if (prefixListOP.isPresent()) {
-                    if (prefixListOP.get().equalsIgnoreCase("custom")) {
-                        player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", prefix);
-                        plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
+            if (src.hasPermission("mmcprefix.prefix.set.other")) {
+                Player player2 = playerOP.get();
+                if (player2.hasPermission("mmcprefix.prefix.protected") && src instanceof Player) {
+                    throw new CommandException(plugin.fromLegacy("&4The prefix of the specified player cannot be changed."));
+                } else {
+                    if (prefixListOP.isPresent()) {
+                        if (src.hasPermission("mmcprefix.prefix.set.list")) {
+                            if (prefixListOP.get().equalsIgnoreCase("custom")) {
+                                player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", prefix);
+                                plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
+                                plugin.runPrefixChangeCommands();
+                            }
+                        } else {
+                            throw new CommandException(plugin.fromLegacy("&cYou do not permission to use this command."));
+                        }
+                    } else {
+                        player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
+                        plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
                         plugin.runPrefixChangeCommands();
                     }
-                } else {
-                    player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                    plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
-                    plugin.runPrefixChangeCommands();
+                    return CommandResult.success();
                 }
-                return CommandResult.success();
+            } else {
+                throw new CommandException(plugin.fromLegacy("&cYou do not permission to use this command."));
             }
         } else {
             if (src instanceof Player) {

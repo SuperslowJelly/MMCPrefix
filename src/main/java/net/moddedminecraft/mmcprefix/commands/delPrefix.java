@@ -25,11 +25,15 @@ public class delPrefix  implements CommandExecutor {
         Optional<Player> playerOP = args.getOne("player");
 
         if (playerOP.isPresent()) {
-            Player player2 = playerOP.get();
-            player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
-            plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted for &6" + player2.getName() + "&3!");
-            plugin.runPrefixChangeCommands();
-            return CommandResult.success();
+            if (src.hasPermission("mmcprefix.prefix.delete.other")) {
+                Player player2 = playerOP.get();
+                player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
+                plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted for &6" + player2.getName() + "&3!");
+                plugin.runPrefixChangeCommands();
+                return CommandResult.success();
+            } else {
+                throw new CommandException(plugin.fromLegacy("&cYou do not permission to delete another users prefix."));
+            }
         } else {
             if (src instanceof Player) {
                 src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
