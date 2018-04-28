@@ -53,7 +53,9 @@ public class setPrefix implements CommandExecutor {
                         if (src.hasPermission("mmcprefix.prefix.set.list")) {
                             if (prefixListOP.get().equalsIgnoreCase("custom")) {
                                 player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", prefix);
-                                plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + prefix);
+                                plugin.sendMessage(src, Config.prefix + Config.messageSetPrefixOtherSucess
+                                        .replace("{playername}", player2.getName())
+                                        .replace("{prefix}", prefix));
                                 plugin.runPrefixChangeCommands();
                             }
                         } else {
@@ -61,7 +63,9 @@ public class setPrefix implements CommandExecutor {
                         }
                     } else {
                         player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                        plugin.sendMessage(src, Config.prefix + "&3Prefix Set for &6" + player2.getName() + "&3: " + Config.prefixFormat.replace("%prefix%", prefix));
+                        plugin.sendMessage(src, Config.prefix + Config.messageSetPrefixOtherSucess
+                                .replace("{playername}", player2.getName())
+                                .replace("{prefix}", Config.prefixFormat.replace("%prefix%", prefix)));
                         plugin.runPrefixChangeCommands();
                     }
                     return CommandResult.success();
@@ -79,7 +83,8 @@ public class setPrefix implements CommandExecutor {
                             throw new CommandException(plugin.fromLegacy(Config.prefix + "&4You do not have the permission to use chat codes in your prefix."));
                         } else {
                             src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                            plugin.sendMessage(src, Config.prefix + "&3Prefix Set to: &f" + Config.prefixFormat.replace("%prefix%", prefix));
+                            plugin.sendMessage(src, Config.prefix + Config.messageSetPrefixSelfSucess
+                                    .replace("{prefix}", Config.prefixFormat.replace("%prefix%", prefix)));
                             plugin.runPrefixChangeCommands();
                             return CommandResult.success();
                         }

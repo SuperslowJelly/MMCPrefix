@@ -28,7 +28,9 @@ public class addPrefix  implements CommandExecutor {
         if (playerOP.isPresent() & permOP.isPresent()) {
             Player player = playerOP.get();
             player.getSubjectData().setPermission(SubjectData.GLOBAL_CONTEXT, "mmcprefix.list."+ permOP.get(), Tristate.TRUE);
-            plugin.sendMessage(src, Config.prefix + "&6" +player.getName() + " &3now has the permission: &6mmcprefix.list." + permOP.get());
+            plugin.sendMessage(src, Config.prefix + Config.messageAddPrefixSucess
+                    .replace("{playername}", player.getName())
+                    .replace("{permission}", "mmcprefix.list." + permOP.get()));
             plugin.runPrefixChangeCommands();
             return CommandResult.success();
         } else {

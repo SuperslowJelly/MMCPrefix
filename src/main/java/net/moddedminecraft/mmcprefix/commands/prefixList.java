@@ -94,7 +94,8 @@ public class prefixList implements CommandExecutor {
                 }
             } else {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "setprefix \"" + prefix + "\" " + name + " custom");
-                plugin.sendMessage(consumer, Config.prefix + "&3Prefix Set to: &f" + prefix);
+                plugin.sendMessage(consumer, Config.prefix + Config.messageSetPrefixSelfSucess
+                        .replace("{prefix}", prefix));
                 plugin.runPrefixChangeCommands();
 
                 if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {
@@ -121,7 +122,7 @@ public class prefixList implements CommandExecutor {
                 }
             } else {
                 Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "delprefix " + name);
-                plugin.sendMessage(consumer, Config.prefix + "&3Prefix has been reset!");
+                plugin.sendMessage(consumer, Config.prefix + Config.messageSetPrefixSelfReset);
                 plugin.runPrefixChangeCommands();
 
                 if (!consumer.hasPermission("mmcprefix.bypass.cooldown")) {

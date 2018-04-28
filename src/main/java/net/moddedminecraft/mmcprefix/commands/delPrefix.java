@@ -28,7 +28,8 @@ public class delPrefix  implements CommandExecutor {
             if (src.hasPermission("mmcprefix.prefix.delete.other")) {
                 Player player2 = playerOP.get();
                 player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
-                plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted for &6" + player2.getName() + "&3!");
+                plugin.sendMessage(src, Config.prefix + Config.messageDelPrefixOtherSucess
+                .replace("{playername}", player2.getName()));
                 plugin.runPrefixChangeCommands();
                 return CommandResult.success();
             } else {
@@ -37,7 +38,7 @@ public class delPrefix  implements CommandExecutor {
         } else {
             if (src instanceof Player) {
                 src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", null);
-                plugin.sendMessage(src, Config.prefix + "&3Prefix Deleted!");
+                plugin.sendMessage(src, Config.prefix + Config.messageDelPrefixSelfSucess);
                 plugin.runPrefixChangeCommands();
                 return CommandResult.success();
             } else {
