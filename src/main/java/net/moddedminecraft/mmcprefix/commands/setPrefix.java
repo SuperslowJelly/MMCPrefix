@@ -26,8 +26,8 @@ public class setPrefix implements CommandExecutor {
         Optional<Player> playerOP = args.getOne("player");
         Optional<String> prefixOP = args.<String>getOne("prefix");
         Optional<String> prefixListOP = args.<String>getOne("custom");
-        String prefix;
-        int length;
+        String prefix = "";
+        int length = 0;
 
         Pattern prefixColorRegex = Pattern.compile("(&([a-f0-9]))", Pattern.CASE_INSENSITIVE);
         Pattern prefixFormatRegex = Pattern.compile("(&([k-o]))", Pattern.CASE_INSENSITIVE);
@@ -38,7 +38,7 @@ public class setPrefix implements CommandExecutor {
         } else {
             if (src.hasPermission("mmcprefix.prefix.set.other")) {
                 throw new CommandException(plugin.fromLegacy("&cUsage: /setprefix <prefix> [<player>]"));
-            } else {
+            } else if (src.hasPermission("mmcprefix.prefix.set.self")) {
                 throw new CommandException(plugin.fromLegacy("&cUsage: /setprefix <prefix>"));
             }
         }
