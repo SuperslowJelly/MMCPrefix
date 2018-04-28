@@ -90,6 +90,7 @@ public class Main {
         // /setprefix prefix (player)
         CommandSpec setprefix = CommandSpec.builder()
                 .description(Text.of("Set a prefix for yourself"))
+                .permission("mmcprefix.prefix.set.self")
                 .arguments(
                         GenericArguments.optional(GenericArguments.string(Text.of("prefix"))),
                         GenericArguments.optional(GenericArguments.player(Text.of("player"))),

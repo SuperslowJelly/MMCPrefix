@@ -33,7 +33,7 @@ public class delPrefix  implements CommandExecutor {
                 plugin.runPrefixChangeCommands();
                 return CommandResult.success();
             } else {
-                throw new CommandException(plugin.fromLegacy("&cYou do not permission to delete another users prefix."));
+                throw new CommandException(plugin.fromLegacy("&cYou do not have permission to delete another users prefix."));
             }
         } else {
             if (src instanceof Player) {

@@ -32,7 +32,7 @@ public class setPrefix implements CommandExecutor {
         Pattern prefixColorRegex = Pattern.compile("(&([a-f0-9]))", Pattern.CASE_INSENSITIVE);
         Pattern prefixFormatRegex = Pattern.compile("(&([k-o]))", Pattern.CASE_INSENSITIVE);
 
-        if (prefixOP.isPresent() && (src.hasPermission("mmcprefix.prefix.set.self") || src.hasPermission("mmcprefix.prefix.set.other"))) {
+        if (prefixOP.isPresent()) {
             prefix = prefixOP.get();
             length = prefix.replaceAll("(&([a-f0-9]))", "").length();
         } else {
@@ -59,7 +59,7 @@ public class setPrefix implements CommandExecutor {
                                 plugin.runPrefixChangeCommands();
                             }
                         } else {
-                            throw new CommandException(plugin.fromLegacy("&cYou do not permission to use this command."));
+                            throw new CommandException(plugin.fromLegacy("&cYou do not have permission to use this command."));
                         }
                     } else {
                         player2.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
@@ -71,29 +71,33 @@ public class setPrefix implements CommandExecutor {
                     return CommandResult.success();
                 }
             } else {
-                throw new CommandException(plugin.fromLegacy("&cYou do not permission to use this command."));
+                throw new CommandException(plugin.fromLegacy("&cYou do not have permission to use this command."));
             }
         } else {
-            if (src instanceof Player) {
-                if (length <= Config.prefixMaxCharacterLimit || src.hasPermission("mmcprefix.prefix.bypass")) {
-                    if (!src.hasPermission("mmcprefix.prefix.staff") && (checkPrefixBlacklist(prefix))) {
-                        throw new CommandException(plugin.fromLegacy("&4You cannot have this prefix."));
-                    } else {
-                        if (!src.hasPermission("mmcprefix.prefix.color") && prefixColorRegex.matcher(prefix).find() || !src.hasPermission("mmcprefix.prefix.format") && prefixFormatRegex.matcher(prefix).find()) {
-                            throw new CommandException(plugin.fromLegacy(Config.prefix + "&4You do not have the permission to use chat codes in your prefix."));
+            if (src.hasPermission("mmcprefix.prefix.set.self")) {
+                if (src instanceof Player) {
+                    if (length <= Config.prefixMaxCharacterLimit || src.hasPermission("mmcprefix.prefix.bypass")) {
+                        if (!src.hasPermission("mmcprefix.prefix.staff") && (checkPrefixBlacklist(prefix))) {
+                            throw new CommandException(plugin.fromLegacy("&4You cannot have this prefix."));
                         } else {
-                            src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
-                            plugin.sendMessage(src, Config.prefix + Config.messageSetPrefixSelfSucess
-                                    .replace("{prefix}", Config.prefixFormat.replace("%prefix%", prefix)));
-                            plugin.runPrefixChangeCommands();
-                            return CommandResult.success();
+                            if (!src.hasPermission("mmcprefix.prefix.color") && prefixColorRegex.matcher(prefix).find() || !src.hasPermission("mmcprefix.prefix.format") && prefixFormatRegex.matcher(prefix).find()) {
+                                throw new CommandException(plugin.fromLegacy(Config.prefix + "&4You do not have the permission to use chat codes in your prefix."));
+                            } else {
+                                src.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", Config.prefixFormat.replace("%prefix%", prefix));
+                                plugin.sendMessage(src, Config.prefix + Config.messageSetPrefixSelfSucess
+                                        .replace("{prefix}", Config.prefixFormat.replace("%prefix%", prefix)));
+                                plugin.runPrefixChangeCommands();
+                                return CommandResult.success();
+                            }
                         }
+                    } else {
+                        throw new CommandException(plugin.fromLegacy("&4You cannot have a prefix longer than " + Config.prefixMaxCharacterLimit + " characters"));
                     }
                 } else {
-                    throw new CommandException(plugin.fromLegacy("&4You cannot have a prefix longer than " + Config.prefixMaxCharacterLimit + " characters"));
+                    throw new CommandException(plugin.fromLegacy("Only a player is able to set their own prefix!"));
                 }
             } else {
-                throw new CommandException(plugin.fromLegacy("Only a player is able to set their own prefix!"));
+                throw new CommandException(plugin.fromLegacy("&cYou do not have permission to use this command."));
             }
         }
     }
