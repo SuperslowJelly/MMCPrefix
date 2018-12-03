@@ -6,6 +6,7 @@ import net.moddedminecraft.mmcprefix.commands.delPrefix;
 import net.moddedminecraft.mmcprefix.commands.prefixList;
 import net.moddedminecraft.mmcprefix.commands.setPrefix;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
+import org.bstats.sponge.Metrics2;
 import org.slf4j.Logger;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandManager;
@@ -27,14 +28,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
-@Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.2.2", description = "A simple and easy to use custom prefix manager")
+@Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.2.3", description = "A simple and easy to use custom prefix manager")
 public class Main {
 
     @Inject
     public Logger logger;
 
     @Inject
-    private Metrics metrics;
+    private Metrics2 metrics;
 
     @Inject
     @DefaultConfig(sharedRoot = false)
