@@ -1,7 +1,7 @@
-package net.moddedminecraft.mmcprefix.commands;
+package com.github.superslowjelly.prefixmanager.commands;
 
-import net.moddedminecraft.mmcprefix.Config;
-import net.moddedminecraft.mmcprefix.Main;
+import com.github.superslowjelly.prefixmanager.Config;
+import com.github.superslowjelly.prefixmanager.PrefixManager;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class addPrefix  implements CommandExecutor {
 
-    private final Main plugin;
-    public addPrefix(Main instance) {
+    private final PrefixManager plugin;
+    public addPrefix(PrefixManager instance) {
         plugin = instance;
     }
 

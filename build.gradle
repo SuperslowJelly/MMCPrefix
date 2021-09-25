@@ -1,34 +1,24 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '2.0.4'
+    id 'org.spongepowered.plugin' version '0.9.0'
 }
 
-apply plugin: 'java'
-apply plugin: 'maven'
+group = 'com.github.superslowjelly'
+version = '1.0-SNAPSHOT'
 
-group = 'net.moddedminecraft'
-version = '1.2.3-API7'
-
-description = """MMCPrefix"""
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
-
-
+sourceCompatibility = targetCompatibility = '1.8'
 
 repositories {
-        
-     maven { url "http://repo.spongepowered.org/maven" }
-     maven { url "http://repo.maven.apache.org/maven2" }
-    maven { url "https://repo.codemc.org/repository/maven-public" }
-}
-dependencies {
-    compileOnly group: 'org.spongepowered', name: 'spongeapi', version:'7.1.0-SNAPSHOT'
-    compile group: 'org.bstats', name: 'bstats-sponge', version:'1.4'
+    maven {
+        name "Jitpack repo - Used for Frani's StorageUtils"
+        url "https://jitpack.io"
+    }
 }
 
-shadowJar {
-    dependencies {
-        include(dependency("org.bstats:bstats-sponge:1.4"))
-    }
-    classifier = ''
+dependencies {
+    compileOnly 'org.spongepowered:spongeapi:7.2.0'
+    annotationProcessor 'org.spongepowered:spongeapi:7.2.0'
+
+    implementation "com.github.Eufranio:StorageUtils:2.4"
 }
+
+sponge.plugin.id = 'prefixmanager'

@@ -1,7 +1,7 @@
-package net.moddedminecraft.mmcprefix.commands;
+package com.github.superslowjelly.prefixmanager.commands;
 
-import net.moddedminecraft.mmcprefix.Config;
-import net.moddedminecraft.mmcprefix.Main;
+import com.github.superslowjelly.prefixmanager.PrefixManager;
+import com.github.superslowjelly.prefixmanager.Config;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
@@ -15,8 +15,8 @@ import java.util.Optional;
 
 public class delPrefix  implements CommandExecutor {
 
-    private final Main plugin;
-    public delPrefix(Main instance) {
+    private final PrefixManager plugin;
+    public delPrefix(PrefixManager instance) {
         plugin = instance;
     }
 

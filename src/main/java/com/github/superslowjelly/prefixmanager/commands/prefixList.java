@@ -1,7 +1,7 @@
-package net.moddedminecraft.mmcprefix.commands;
+package com.github.superslowjelly.prefixmanager.commands;
 
-import net.moddedminecraft.mmcprefix.Config;
-import net.moddedminecraft.mmcprefix.Main;
+import com.github.superslowjelly.prefixmanager.Config;
+import com.github.superslowjelly.prefixmanager.PrefixManager;
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandException;
 import org.spongepowered.api.command.CommandResult;
@@ -19,8 +19,8 @@ import java.util.function.Consumer;
 
 public class prefixList implements CommandExecutor {
 
-    private final Main plugin;
-    public prefixList(Main instance) {
+    private final PrefixManager plugin;
+    public prefixList(PrefixManager instance) {
         plugin = instance;
     }
     private int index = 1;

@@ -1,10 +1,10 @@
-package net.moddedminecraft.mmcprefix;
+package com.github.superslowjelly.prefixmanager;
 
 import com.google.inject.Inject;
-import net.moddedminecraft.mmcprefix.commands.addPrefix;
-import net.moddedminecraft.mmcprefix.commands.delPrefix;
-import net.moddedminecraft.mmcprefix.commands.prefixList;
-import net.moddedminecraft.mmcprefix.commands.setPrefix;
+import com.github.superslowjelly.prefixmanager.commands.addPrefix;
+import com.github.superslowjelly.prefixmanager.commands.delPrefix;
+import com.github.superslowjelly.prefixmanager.commands.prefixList;
+import com.github.superslowjelly.prefixmanager.commands.setPrefix;
 import ninja.leaping.configurate.objectmapping.ObjectMappingException;
 import org.bstats.sponge.Metrics2;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @Plugin(id = "mmcprefix", name = "mmcprefix", version = "1.2.3", description = "A simple and easy to use custom prefix manager")
-public class Main {
+public class PrefixManager {
 
     @Inject
     public Logger logger;

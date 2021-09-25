@@ -1,4 +1,4 @@
-package net.moddedminecraft.mmcprefix;
+package com.github.superslowjelly.prefixmanager;
 
 import com.google.common.reflect.TypeToken;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 public class Config {
 
-    private final Main plugin;
+    private final PrefixManager plugin;
 
     private static ConfigurationLoader<CommentedConfigurationNode> loader;
     public static CommentedConfigurationNode config;
@@ -45,7 +45,7 @@ public class Config {
     public static String messageSetPrefixSelfSucess;
     public static String messageSetPrefixSelfReset;
 
-    public Config(Main main) throws IOException, ObjectMappingException {
+    public Config(PrefixManager main) throws IOException, ObjectMappingException {
         plugin = main;
         loader = HoconConfigurationLoader.builder().setPath(plugin.defaultConf).build();
         config = loader.load();
