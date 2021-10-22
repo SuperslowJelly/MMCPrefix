@@ -76,10 +76,8 @@ public class PrefixManager {
 
     @Listener public void onGamePreInit(GamePreInitializationEvent event) {
         this.logger.info("Loading...");
-        TaskHelper.async(() -> {
-            this.configManager = new ConfigManager(this.configDir);
-            ACommandRegistry.registerCommands();
-        });
+        this.configManager = new ConfigManager(this.configDir);
+        ACommandRegistry.registerCommands();
         this.logger.info("Loaded!");
     }
 

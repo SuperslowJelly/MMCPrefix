@@ -1,6 +1,10 @@
 plugins {
+    id 'application'
     id 'org.spongepowered.plugin' version '0.9.0'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
+
+mainClassName = 'com.github.superslowjelly.prefixmanager'
 
 group = 'com.github.superslowjelly'
 version = '1.3.0-API7'
@@ -19,11 +23,23 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spongepowered:spongeapi:7.2.0'
     annotationProcessor 'org.spongepowered:spongeapi:7.2.0'
 
+    compileOnly 'org.spongepowered:spongeapi:7.2.0'
+    compileOnly "io.github.nucleuspowered:nucleus-api:1.8.0-S7.1"
     implementation "com.github.Eufranio:StorageUtils:2.4"
-    implementation "io.github.nucleuspowered:nucleus-api:1.8.0-S7.1"
 }
+
+shadowJar {
+    dependencies {
+        exclude("ninja/")
+        exclude("org/")
+        exclude("com/google/")
+        exclude("com/j256/")
+        exclude("com/typesafe/")
+    }
+}
+
+build.dependsOn shadowJar
 
 sponge.plugin.id = 'prefixmanager'
