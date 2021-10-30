@@ -13,6 +13,7 @@ import org.spongepowered.api.command.args.GenericArguments;
 import org.spongepowered.api.command.spec.CommandExecutor;
 import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.service.permission.SubjectData;
 import org.spongepowered.api.text.Text;
 import org.spongepowered.api.util.annotation.NonnullByDefault;
@@ -66,6 +67,13 @@ public class ExecutorSetPrefix extends ACommandRegistry implements CommandExecut
         if (!PrefixManager.getConfig().PREFIX.getPrefixes().containsKey(prefixName)) return false;
         player.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", PrefixManager.getConfig().PREFIX.getPrefixes().get(prefixName));
         PrefixManager.getLogger().info("Set " + player.getName() + "'s prefix to " + prefixName + "!");
+        return true;
+    }
+
+    public static boolean setPrefix(User user, String prefixName) {
+        if (!PrefixManager.getConfig().PREFIX.getPrefixes().containsKey(prefixName)) return false;
+        user.getSubjectData().setOption(SubjectData.GLOBAL_CONTEXT, "prefix", PrefixManager.getConfig().PREFIX.getPrefixes().get(prefixName));
+        PrefixManager.getLogger().info("Set " + user.getName() + "'s prefix to " + prefixName + "!");
         return true;
     }
 

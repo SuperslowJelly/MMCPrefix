@@ -4,6 +4,7 @@ import com.github.superslowjelly.prefixmanager.PrefixManager;
 import ninja.leaping.configurate.objectmapping.Setting;
 import ninja.leaping.configurate.objectmapping.serialize.ConfigSerializable;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -39,6 +40,14 @@ public class PrefixCategory {
         String highest = "default";
         for (Map.Entry<String, String> entry : PrefixManager.getConfig().PREFIX.getPrefixes().entrySet()) {
             if (player.hasPermission("prefixmanager.prefix." + entry.getKey())) highest = entry.getKey();
+        }
+        return highest;
+    }
+
+    public static String getHighestPrefix(User user) {
+        String highest = "default";
+        for (Map.Entry<String, String> entry : PrefixManager.getConfig().PREFIX.getPrefixes().entrySet()) {
+            if (user.hasPermission("prefixmanager.prefix." + entry.getKey())) highest = entry.getKey();
         }
         return highest;
     }

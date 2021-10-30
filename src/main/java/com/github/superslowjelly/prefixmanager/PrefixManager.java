@@ -7,9 +7,11 @@ import com.github.superslowjelly.prefixmanager.configuration.main.MainConfig;
 import com.github.superslowjelly.prefixmanager.configuration.main.categories.PrefixCategory;
 import com.github.superslowjelly.prefixmanager.utilities.TaskHelper;
 import com.google.inject.Inject;
+import org.checkerframework.checker.units.qual.Prefix;
 import org.slf4j.Logger;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.User;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.filter.cause.First;
 import org.spongepowered.api.event.game.GameReloadEvent;
@@ -60,6 +62,18 @@ public class PrefixManager {
         }
     }
 
+    public static void forcePrefixUpdate(Player player) {
+        if (!player.hasPermission("prefixmanager.prefix." + PrefixCategory.getPrefixName(player.getSubjectData().getOptions(SubjectData.GLOBAL_CONTEXT).get("prefix")))) {
+            ExecutorSetPrefix.setPrefix(player, PrefixCategory.getHighestPrefix(player));
+        }
+    }
+
+    public static void forcePrefixUpdate(User user) {
+        if (!user.hasPermission("prefixmanager.prefix." + PrefixCategory.getPrefixName(user.getSubjectData().getOptions(SubjectData.GLOBAL_CONTEXT).get("prefix")))) {
+            ExecutorSetPrefix.setPrefix(user, PrefixCategory.getHighestPrefix(user));
+        }
+    }
+
     // Static variables.
     private static PrefixManager instance;
 
@@ -89,8 +103,6 @@ public class PrefixManager {
 
     @Listener
     public void onPlayerJoin(ClientConnectionEvent.Join event, @First Player player) {
-        if (!player.hasPlayedBefore() ||
-            !player.hasPermission("prefixmanager.prefix." + PrefixCategory.getPrefixName(player.getSubjectData().getOptions(SubjectData.GLOBAL_CONTEXT).get("prefix")))
-        ) ExecutorSetPrefix.setPrefix(player, PrefixCategory.getHighestPrefix(player));
+        if (!player.hasPlayedBefore()) PrefixManager.forcePrefixUpdate(player);
     }
 }
